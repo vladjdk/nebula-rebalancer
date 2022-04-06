@@ -2,11 +2,11 @@
 
 This bot is meant for rebalancing clusters on Terra's Nebula Protocol. **IT ONLY WORKS IF ALL THE ASSETS IN THE CLUSTER HAVE UST PAIRS ON ASTROPORT.**
 
-##Current Markets:
+## Current Markets:
 
 - Astroport
 
-##Flow
+## Flow
 
 It works by looping through the following flow:
 
@@ -49,13 +49,13 @@ imbalance_threshold = 1000000
 # mnemonic = open(home + "/mk.txt").readline()
 ```
 
-###Options:
-####Net
+### Options:
+#### Net
 
 - `mainnet`: Uses Terra Mainnet (Nebula is not currently released on mainnet
 - `testnet`: Uses the Terra Testnet (This is the recommended option for new users to test out the code)
 
-####Cluster
+#### Cluster
 
 Mainnet Clusters Available:
 
@@ -67,11 +67,11 @@ Testnet Clusters Available:
 - `first_three_cluster`
 - `lunaust`
 
-####mnemonic
+#### mnemonic
 
 You can provide your mnemonic in any way that you wish, but ensure that the variable is populated with a string version of your mnemonic.
 
-####total_capital
+#### total_capital
 
 Here, input the amount of UST that you would like to use in floating-point decimal numbers. Ensure that the numbers are a maximum of 6 decimals after the point.
 
@@ -82,7 +82,7 @@ For example:
 - `10.123456`: Correct
 - `10.1234567`: Incorrect
 
-####imbalance_threshold
+#### imbalance_threshold
 
 Input the imbalance amount in `uust` for which the bot should stop. For example, setting it to `1000000` would mean the bot stops running after the imbalance reaches 1000000 or less.
 
