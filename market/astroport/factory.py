@@ -1,10 +1,11 @@
 from terra_sdk.client.lcd import LCDClient
 
+import config
 import constants
 from objects.asset import Asset
 
 
-FACTORY_ADDRESS = constants.market_contracts['astroport_factory']
+FACTORY_ADDRESS = constants.market_contracts[config.net]['astroport_factory']
 
 def query_pair(client: LCDClient, a: Asset, b: Asset):
     msg = {

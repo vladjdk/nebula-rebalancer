@@ -1,5 +1,3 @@
-net = 'testnet'
-
 network_info = {
     'mainnet': {
         'url': 'https://lcd.terra.dev',
@@ -48,10 +46,21 @@ cluster_contracts = {
         "terraform": ""
     },
     "testnet": {
-        "terraform": "terra1ae33wpqqymjyrgjc4fexzz4msl7qwclmvxzrvy"
+        # "terraform": "terra1ae33wpqqymjyrgjc4fexzz4msl7qwclmvxzrvy"
+        'tottenham': 'terra1247eqmv9y7rc8k98jl4ps7c0kmmt4hm6uvfawq',
+        'lunaust': 'terra1f08qvrr4gpwdxqlxpgg559kdc5wl2gzgh3c00a',
+        'all_star_assets': 'terra1hxus0egh2j6y9j3qm2hhu6d2fzeugnv073hnev',
+        'first_three_cluster': 'terra1r3vkk9vcajvjt8g9895jf84pyp6hcmwfq2vg9f',
+        'mirancust': 'terra1rhuwcluvgnql4f0xlhzmxlrgk22q65ym646sk2',
+        'tester': 'terra1x40z523saslsuwaqysf59tudcrhprzp9g6esus',
     }
 }
 
 market_contracts = {
-    'astroport_factory': "terra15jsahkaf9p0qu8ye873p0u5z6g07wdad0tdq43"
+    'testnet': {
+        'astroport_factory': "terra15jsahkaf9p0qu8ye873p0u5z6g07wdad0tdq43"
+        },
+    'mainnet': {
+
+    }
 }

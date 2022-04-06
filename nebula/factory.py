@@ -1,7 +1,8 @@
+import config
 import constants
 from terra_sdk.client.lcd import LCDClient
 
-CONTRACT_ADDRESS = constants.nebula_contracts[constants.net]["nebula_cluster_factory"]
+CONTRACT_ADDRESS = constants.nebula_contracts[config.net]["nebula_cluster_factory"]
 
 # queries
 def query_config(client: LCDClient):

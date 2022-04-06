@@ -2,6 +2,7 @@ from terra_sdk.client.lcd.api.tx import CreateTxOptions
 from terra_sdk.core import Coins, Coin
 from terra_sdk.core.wasm import MsgExecuteContract
 
+import config
 import nebula.cluster as cluster
 
 import constants
@@ -9,7 +10,7 @@ from terra_sdk.client.lcd import LCDClient, Wallet
 
 from objects.asset import Asset
 
-CONTRACT_ADDRESS = constants.nebula_contracts[constants.net]["nebula_incentives"]
+CONTRACT_ADDRESS = constants.nebula_contracts[config.net]["nebula_incentives"]
 
 
 # queries

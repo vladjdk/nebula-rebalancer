@@ -1,4 +1,3 @@
-import os
 import time
 
 from terra_sdk.client.lcd import LCDClient, Wallet
@@ -13,6 +12,7 @@ import market.astroport.pair as pair
 import numpy as np
 
 from objects.asset import Asset
+import config
 
 
 def calculate_capital_allocation(i, p):
@@ -27,7 +27,6 @@ def calculate_notional_imbalance(i, w, p):
     return np.sum(np.abs(np.subtract(calculate_target_capital_allocation(i, w, p), calculate_capital_allocation(i, p))))
 
 
-# we could likely use this function to find out what the most impactful changes to make will be
 def calculate_separate_imbalances(i, w, p):
     return np.subtract(calculate_target_capital_allocation(i, w, p), calculate_capital_allocation(i, p))
 
@@ -148,7 +147,7 @@ def sell_assets_from_redeem(redeem_res):
 
 
 def create_then_redeem(ust_used, cluster_address, imbalance_threshold):
-    print("Total UST available for spending: {}".format(total_capital))
+    print("Total UST available for spending: {}".format(ust_used))
     i_, w_, p_, outstanding_balance_tokens, cluster_assets = get_info_from_state(terra, cluster_address)
     x_ = calculate_notional_imbalance(i_, w_, p_)
     loops = 0
@@ -205,16 +204,11 @@ def create_then_redeem(ust_used, cluster_address, imbalance_threshold):
     print("Notional imbalance ({}) is under threshold ({}). Finishing script".format(x_, imbalance_threshold))
 
 
-home = os.environ['HOME']
-mnemonic = open(home + "/mk.txt").readline()
-mk = MnemonicKey(mnemonic)  # TODO: safer mnemonic handling
+mk = MnemonicKey(config.mnemonic)
 
-terra = LCDClient(chain_id=constants.network_info[constants.net]['moniker'],
-                  url=constants.network_info[constants.net]['url'])
+terra = LCDClient(chain_id=constants.network_info[config.net]['moniker'],
+                  url=constants.network_info[config.net]['url'])
 wallet = terra.wallet(mk)
-cluster_address = constants.cluster_contracts['testnet']['terraform']
+cluster_address = constants.cluster_contracts[config.net][config.cluster]
 
-total_capital = 10
-imbalance_threshold = 1000000
-
-create_then_redeem(total_capital, cluster_address, imbalance_threshold)
+create_then_redeem(config.total_capital, cluster_address, config.imbalance_threshold)
