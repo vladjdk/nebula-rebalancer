@@ -1,7 +1,7 @@
 import os
 
 net = 'testnet'
-cluster = 'lunaust'
+cluster = 'tottenham'
 # mnemonic = "MNEMONIC"
 
 total_capital = 1000
