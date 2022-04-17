@@ -2,8 +2,13 @@ import time
 
 import numpy as np
 from terra_sdk.client.lcd import LCDClient, Wallet
+from terra_sdk.client.lcd.api.tx import CreateTxOptions
+from terra_sdk.core import AccAddress, Coin
+from terra_sdk.core.market import MsgSwap
 
+import constants
 from market.astroport import factory as astro_factory, pair as pair
+from market.market import market_swap
 from nebula import cluster as cluster
 from objects.asset import Asset
 
@@ -29,9 +34,9 @@ def get_ust_pairs_for_assets(terra: LCDClient, assets: [str]):
     pairs = []
     for i in range(len(assets)):
         if assets[i] == "uusd":
-            pairs.append(None)
+            pairs.append("uusd")
         elif assets[i].startswith("u"):
-            pairs.append(astro_factory.query_pair(terra, Asset(denom="uusd"), Asset(denom=assets[i]))['contract_addr'])
+            pairs.append(assets[i])
         else:
             pairs.append(
                 astro_factory.query_pair(terra, Asset(denom="uusd"), Asset(contract_addr=assets[i]))['contract_addr'])
@@ -66,7 +71,7 @@ def get_sorted_assets(capital, imbalances, cluster_assets):
 def swap_ust_for_assets(terra: LCDClient, wallet: Wallet, pairs, asset_spend, sorted_assets):
     acquired_assets = []
     for i in range(len(pairs)):
-        if pairs[i]:
+        if pairs[i].startswith("terra"):
             res = pair.execute_swap(terra, wallet, pairs[i], Asset(denom="uusd", amount=asset_spend[i]),
                                     0.005)
             time.sleep(7)
@@ -74,8 +79,11 @@ def swap_ust_for_assets(terra: LCDClient, wallet: Wallet, pairs, asset_spend, so
                                       amount=res.logs[0].events_by_type['from_contract']['return_amount'][0]) if
                                 sorted_assets[i].startswith("terra1") else Asset(denom=sorted_assets[i], amount=
             res.logs[0].events_by_type['from_contract']['return_amount'][0]))
-        else:
+        elif pairs[i] == "uusd":
             acquired_assets.append(Asset(denom="uusd", amount=asset_spend[i]))
+        elif pairs[i].startswith("u"):
+            res = market_swap(terra, wallet, offer_denom="uusd", offer_amount=asset_spend[i], ask_denom=pairs[i])
+            acquired_assets.append(Asset(denom=pairs[i], amount=res.logs[0].events_by_type['coin_received']['amount'][2][:res.logs[0].events_by_type['coin_received']['amount'][2].find("u")]))
     return acquired_assets
 
 
