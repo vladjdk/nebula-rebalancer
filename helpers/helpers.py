@@ -1,8 +1,8 @@
 import time
 
 import numpy as np
+from terra_sdk.client.lcd import LCDClient, Wallet
 
-from bot import terra, wallet
 from market.astroport import factory as astro_factory, pair as pair
 from nebula import cluster as cluster
 from objects.asset import Asset
@@ -25,7 +25,7 @@ def get_info_from_state(client, cluster_address):
     return i, w, p, outstanding_balance_tokens, underlying_assets
 
 
-def get_ust_pairs_for_assets(assets: [Asset]):
+def get_ust_pairs_for_assets(terra: LCDClient, assets: [str]):
     pairs = []
     for i in range(len(assets)):
         if assets[i] == "uusd":
@@ -63,7 +63,7 @@ def get_sorted_assets(capital, imbalances, cluster_assets):
     return sorted_assets, asset_spend
 
 
-def swap_ust_for_assets(pairs, asset_spend, sorted_assets):
+def swap_ust_for_assets(terra: LCDClient, wallet: Wallet, pairs, asset_spend, sorted_assets):
     acquired_assets = []
     for i in range(len(pairs)):
         if pairs[i]:
@@ -86,7 +86,7 @@ def split_imbalances(imbalances):
     return positive_imbalances, negative_imbalances
 
 
-def sell_assets_from_redeem(redeem_res):
+def sell_assets_from_redeem(terra: LCDClient, wallet: Wallet, redeem_res):
     actions = redeem_res.logs[len(redeem_res.logs) - 1].events_by_type['from_contract']['action'] if 'from_contract' in \
                                                                                                      redeem_res.logs[
                                                                                                          len(redeem_res.logs) - 1].events_by_type.keys() else []

@@ -29,7 +29,7 @@ nebula_contracts = {  # TODO: update contract addresses when deployed
     },
     "testnet": {
         "nebula_airdrop": "NEBULA_AIRDROP",
-        "nebula_cluster_factory": "terra144wvr259rwvmg37x7k4y8sd9k6uzykl3s6dmt7",
+        "nebula_cluster_factory": "terra103srr94gy8zgyey7ncg63gqfgac3y6nkdc28jh",
         "nebula_collector": "terra1xk7a2yhm2a7ylkns73e0vg50lv6l7cv0n02rhq",
         "nebula_community": "terra1acmfgylk8chxw7lxwmkzv3gzdesk4vfjpng0d5",
         "nebula_gov": "terra13psqttx8wzmedtmd7g4mhtyqdvujnryzgwuy84",
