@@ -2,6 +2,7 @@ import time
 
 import numpy as np
 
+from bot import terra, wallet
 from helpers.helpers import get_info_from_state, split_imbalances, get_sorted_assets, get_ust_pairs_for_assets, \
     swap_ust_for_assets, sell_assets_from_redeem
 from helpers.math import calculate_notional_imbalance, calculate_separate_imbalances
@@ -9,7 +10,7 @@ from nebula import cluster as cluster, factory as cluster_factory
 from objects.asset import Asset
 
 
-def create_then_redeem(terra, wallet, ust_used, cluster_address, imbalance_threshold):
+def create_then_redeem(ust_used, cluster_address, imbalance_threshold):
     print("Total UST available for spending: {}".format(ust_used))
     i_, w_, p_, outstanding_balance_tokens, cluster_assets = get_info_from_state(terra, cluster_address)
     x_ = calculate_notional_imbalance(i_, w_, p_)
@@ -23,9 +24,9 @@ def create_then_redeem(terra, wallet, ust_used, cluster_address, imbalance_thres
         print("Sorted assets by imbalance: {}".format(sorted_assets))
         print("Spend values by sorted asset: {}".format(spend_values))
         print("Total UST value to be spent: {}".format(sum(spend_values)/1000000))
-        pairs = get_ust_pairs_for_assets(terra, sorted_assets)
+        pairs = get_ust_pairs_for_assets(sorted_assets)
         print("Astroport pair for each sorted asset: {}".format(pairs))
-        rebalance_create_assets = swap_ust_for_assets(terra, wallet, pairs, spend_values, sorted_assets)
+        rebalance_create_assets = swap_ust_for_assets(pairs, spend_values, sorted_assets)
         print("Assets for create rebalance: {}".format(rebalance_create_assets))
 
         create_res = cluster.execute_rebalance_create(terra, wallet, cluster_address, rebalance_create_assets)
