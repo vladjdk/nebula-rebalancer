@@ -56,7 +56,7 @@ def create_then_redeem(terra, wallet, ust_used, cluster_address, imbalance_thres
 
         print("**Redeemed!**")
 
-        totals = sell_assets_from_redeem(redeem_res)
+        totals = sell_assets_from_redeem(terra, wallet, redeem_res)
         print("Total UST received: {}".format(totals))
         i_, w_, p_, _outstanding_balance_tokens, _cluster_assets = get_info_from_state(terra, cluster_address)
         x_ = calculate_notional_imbalance(i_, w_, p_)
