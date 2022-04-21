@@ -71,7 +71,7 @@ def query_contributor_pending_rewards(client: LCDClient, contributor_address):
 
 # execute
 # TODO: might want to add check to see if assets are a part of the cluster and cancel if not
-def execute_arb_cluster_mint(client: LCDClient, wallet: Wallet, cluster_contract, assets: [Asset], min_ust=None):
+def execute_arb_cluster_mint(client: LCDClient, wallet: Wallet, cluster_contract, assets: list([Asset]), min_ust=None):
     arb_cluster_create_msg = {
                 "arb_cluster_create": {
                     "cluster_contract": cluster_contract,
@@ -140,7 +140,7 @@ def execute_arb_cluster_redeem(client: LCDClient, wallet: Wallet, cluster_contra
     return client.tx.broadcast(tx)
 
 
-def execute_incentives_create(client: LCDClient, wallet: Wallet, cluster_contract, asset_amounts: [Asset],
+def execute_incentives_create(client: LCDClient, wallet: Wallet, cluster_contract, asset_amounts: list([Asset]),
                               min_tokens=None):
     incentives_create_msg = {
                 "incentives_create": {
@@ -186,7 +186,7 @@ def execute_incentives_create(client: LCDClient, wallet: Wallet, cluster_contrac
 
 
 def execute_incentives_redeem(client: LCDClient, wallet: Wallet, cluster_contract, max_tokens,
-                              asset_amounts: [Asset] = None):
+                              asset_amounts: list([Asset]) = None):
     cluster_token = cluster.query_config(client, cluster_contract)['config']['cluster_token']
     incentives_redeem_msg = {
                 "incentives_redeem": {
