@@ -2,7 +2,6 @@ import time
 
 import numpy as np
 
-from bot import terra, wallet
 from helpers.helpers import get_info_from_state, split_imbalances, get_sorted_assets, get_ust_pairs_for_assets, \
     swap_ust_for_assets, sell_assets_from_redeem
 from helpers.math import calculate_notional_imbalance, calculate_separate_imbalances
