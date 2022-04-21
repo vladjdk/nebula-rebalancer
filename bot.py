@@ -1,7 +1,8 @@
 import constants
+import config
 
 from bots.rebalance import create_then_redeem
-import config
+
 
 
 cluster_address = constants.cluster_contracts[config.net][config.cluster]
