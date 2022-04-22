@@ -15,7 +15,7 @@ net = 'testnet'
 cluster = 'lunaust'
 # mnemonic = "MNEMONIC"
 
-total_capital = 1000
+total_capital = 10000
 imbalance_threshold = 2000000
 
 # home = os.environ['HOME']
