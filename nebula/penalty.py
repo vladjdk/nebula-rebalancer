@@ -10,8 +10,8 @@ def query_params(client: LCDClient, penalty_address):
     )
 
 
-def query_create(client: LCDClient, penalty_address, block_height: int, cluster_token_supply: int, inventory: [int],
-                 create_asset_amounts: [int], asset_prices: [int], target_weights: [int]):
+def query_create(client: LCDClient, penalty_address, block_height: int, cluster_token_supply: int, inventory: list([int]),
+                 create_asset_amounts:list([int]), asset_prices: list([int]), target_weights: list([int])):
     return client.wasm.contract_query(
         penalty_address,
         {
@@ -27,8 +27,8 @@ def query_create(client: LCDClient, penalty_address, block_height: int, cluster_
     )
 
 
-def query_redeem(client: LCDClient, penalty_address, block_height: int, cluster_token_supply: int, inventory: [int],
-                 max_tokens: int, redeem_asset_amounts: [int], asset_prices: [int], target_weights: [int]):
+def query_redeem(client: LCDClient, penalty_address, block_height: int, cluster_token_supply: int, inventory: list([int]),
+                 max_tokens: int, redeem_asset_amounts: list([int]), asset_prices: list([int]), target_weights: list([int])):
     return client.wasm.contract_query(
         penalty_address,
         {

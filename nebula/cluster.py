@@ -47,7 +47,7 @@ def query_cluster_info(client: LCDClient, cluster_address):
 
 
 # execute
-def execute_rebalance_create(client: LCDClient, wallet: Wallet, cluster_address, asset_amounts: [Asset], min_tokens=None):
+def execute_rebalance_create(client: LCDClient, wallet: Wallet, cluster_address, asset_amounts: list([Asset]), min_tokens=None):
     rebalance_create_msg = {
             "rebalance_create": {
                 "asset_amounts": [asset.get_dict() for asset in asset_amounts],
@@ -88,7 +88,7 @@ def execute_rebalance_create(client: LCDClient, wallet: Wallet, cluster_address,
     return client.tx.broadcast(tx)
 
 
-def execute_rebalance_redeem(client: LCDClient, wallet: Wallet, cluster_address, max_tokens, asset_amounts: [Asset]=None):
+def execute_rebalance_redeem(client: LCDClient, wallet: Wallet, cluster_address, max_tokens, asset_amounts: list([Asset])=None):
     cluster_token = query_config(client, cluster_address)['config']['cluster_token']
     rebalance_msg = {
                 "rebalance_redeem": {

@@ -1,8 +1,8 @@
 import time
+import config
 
 import numpy as np
 
-from bot import terra, wallet
 from market.astroport import factory as astro_factory, pair as pair
 from nebula import cluster as cluster
 from objects.asset import Asset
@@ -25,16 +25,16 @@ def get_info_from_state(client, cluster_address):
     return i, w, p, outstanding_balance_tokens, underlying_assets
 
 
-def get_ust_pairs_for_assets(assets: [Asset]):
+def get_ust_pairs_for_assets(assets: list([Asset])):
     pairs = []
     for i in range(len(assets)):
         if assets[i] == "uusd":
             pairs.append(None)
         elif assets[i].startswith("u"):
-            pairs.append(astro_factory.query_pair(terra, Asset(denom="uusd"), Asset(denom=assets[i]))['contract_addr'])
+            pairs.append(astro_factory.query_pair(config.terra, Asset(denom="uusd"), Asset(denom=assets[i]))['contract_addr'])
         else:
             pairs.append(
-                astro_factory.query_pair(terra, Asset(denom="uusd"), Asset(contract_addr=assets[i]))['contract_addr'])
+                astro_factory.query_pair(config.terra, Asset(denom="uusd"), Asset(contract_addr=assets[i]))['contract_addr'])
     return pairs
 
 
@@ -67,12 +67,12 @@ def swap_ust_for_assets(pairs, asset_spend, sorted_assets):
     acquired_assets = []
     for i in range(len(pairs)):
         if pairs[i]:
-            res = pair.execute_swap(terra, wallet, pairs[i], Asset(denom="uusd", amount=asset_spend[i]),
+            res = pair.execute_swap(config.terra, config.wallet, pairs[i], Asset(denom="uusd", amount=asset_spend[i]),
                                     0.005)
             time.sleep(7)
             acquired_assets.append(Asset(contract_addr=sorted_assets[i],
                                       amount=res.logs[0].events_by_type['from_contract']['return_amount'][0]) if
-                                sorted_assets[i].startswith("terra1") else Asset(denom=sorted_assets[i], amount=
+                                sorted_assets[i].startswith("config.terra1") else Asset(denom=sorted_assets[i], amount=
             res.logs[0].events_by_type['from_contract']['return_amount'][0]))
         else:
             acquired_assets.append(Asset(denom="uusd", amount=asset_spend[i]))
@@ -114,8 +114,8 @@ def sell_assets_from_redeem(redeem_res):
         if token.denom == "uusd":
             totals += token.amount
         else:
-            q = astro_factory.query_pair(terra, Asset(denom="uusd"), token)
-            redeem_res = pair.execute_swap(terra, wallet, q['contract_addr'], token, 0.005)
+            q = astro_factory.query_pair(config.terra, Asset(denom="uusd"), token)
+            redeem_res = pair.execute_swap(config.terra, config.wallet, q['contract_addr'], token, 0.005)
             time.sleep(6)
             totals += int(redeem_res.logs[len(redeem_res.logs) - 1].events_by_type['coin_received']['amount'][0][
                           :redeem_res.logs[len(redeem_res.logs) - 1].events_by_type['coin_received']['amount'][0].find(
